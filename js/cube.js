@@ -34,7 +34,9 @@ Cube.prototype.init = function() {
 	var isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
 
 	this.safari = isIOS || isSafari;
-	this.ie = isIE;
+	this.no3D = isIE || !feature.css3Dtransform;
+
+	this.touch = feature.touch;
 
 	this.state = [];
 
@@ -59,11 +61,18 @@ Cube.prototype.bind = function() {
 		}, 200);
 	});
 
-	this.el.cubeWrappers.hover(function(e) {
-		self.onMouseEnter(e, $(this));
-	}, function(e) {
-		self.onMouseOut(e, $(this));
-	});
+	if (this.touch) {
+		this.el.cubeWrappers.click(function(e) {
+			self.showOtherSide(e, $(this));
+		});
+	}
+		else {
+		this.el.cubeWrappers.hover(function(e) {
+			self.showOtherSide(e, $(this));
+		}, function(e) {
+			self.resetMouseOutFlag(e, $(this));
+		});
+	}
 };
 
 Cube.prototype.fixTranforms = function() {
@@ -80,22 +89,23 @@ Cube.prototype.fixTranforms = function() {
 	this.el.style.html(newStyles);
 };
 
-Cube.prototype.onMouseOut = function(e, element) {
+Cube.prototype.resetMouseOutFlag = function(e, element) {
 	this.state[element.index()].mouseOut = true;
 };
 
-Cube.prototype.onMouseEnter = function(e, element) {
+Cube.prototype.showOtherSide = function(e, element) {
 	var state = this.state[element.index()];
 
-	if (!state.mouseOut || state.transitionInProgress) {
+	if (!this.touch && !state.mouseOut || state.transitionInProgress) {
 		return;
 	}
 
 	var cube = element.find('.Cube');
-	var oldSide = element.find('.Cube-side');
+	var firstSide = element.find('.Cube-side--front');
+	var secondSide = element.find('.Cube-side--second');
 
-	if (this.ie) {
-		oldSide.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
+	if (this.no3D) {
+		firstSide.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
 			.toggleClass('Cube-side--invert');
 		return;
 	}
@@ -152,12 +162,14 @@ Cube.prototype.onMouseEnter = function(e, element) {
 	var invertClass = state.rotationCount % 2 === 1 ? 'Cube-side--invert' : '';
 	var sideClass = 'Cube-side--' + side;
 
-	var newSide = $('<div/>')
-		.addClass('Cube-side ' + sideClass)
-		.addClass(invertClass)
-		.html(oldSide.html());
+	secondSide.addClass(sideClass).removeClass('Cube-side--second');
 
-	oldSide.after(newSide);
+	// var secondSide = $('<div/>')
+	// 	.addClass('Cube-side ' + sideClass)
+	// 	.addClass(invertClass)
+	// 	.html(firstSide.html());
+
+	// firstSide.after(secondSide);
 
 	// Safari has a bug with 'transform-origin' on Z axis, this is a fix for it
 	var safariTransformFix = '';
@@ -171,9 +183,19 @@ Cube.prototype.onMouseEnter = function(e, element) {
 		.css('transform', safariTransformFix + 'rotateX(' + rotation.x + 'deg) rotateY(' + rotation.y + 'deg)');
 
 	setTimeout(function() {
-		oldSide.remove();
-		newSide.removeClass(sideClass).addClass('Cube-side--front');
-		cube.css('transition', 'none').css('transform', 'none');
+		console.log(firstSide, secondSide);
+
+		firstSide
+			.removeClass('Cube-side--front')
+			.addClass('Cube-side--second');
+
+		secondSide
+			.removeClass(sideClass)
+			.addClass('Cube-side--front');
+
+		cube
+			.css('transition', 'none')
+			.css('transform', 'none');
 		state.transitionInProgress = false;
 	}, this.options.transitionTime);
 };
