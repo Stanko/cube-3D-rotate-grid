@@ -28,6 +28,14 @@ Cube.prototype.init = function() {
 
 	this.fixTranforms();
 
+	var userAgent = navigator.userAgent.toLowerCase();
+	var isIE = /msie|trident\//.test(userAgent);
+	var isIOS = /ipad|iphone|ipod/.test(navigator.platform);
+	var isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
+
+	this.safari = isIOS || isSafari;
+	this.ie = isIE;
+
 	this.state = [];
 
 	for (var i = 0; i < this.el.cubeWrappers.length; i++) {
@@ -48,7 +56,7 @@ Cube.prototype.bind = function() {
 		clearTimeout(resizeTimeout);
 		resizeTimeout = setTimeout(function(){
 			self.fixTranforms();
-		}, 500);
+		}, 200);
 	});
 
 	this.el.cubeWrappers.hover(function(e) {
@@ -61,6 +69,8 @@ Cube.prototype.bind = function() {
 Cube.prototype.fixTranforms = function() {
 	var size = $('.CubeWrapper')[0].getBoundingClientRect().width;
 	var half = size / 2;
+
+	this.halfSize = half;
 
 	var newStyles = this.styles
 		.replace(/FULL/g, size + 'px')
@@ -81,10 +91,17 @@ Cube.prototype.onMouseEnter = function(e, element) {
 		return;
 	}
 
+	var cube = element.find('.Cube');
+	var oldSide = element.find('.Cube-side');
+
+	if (this.ie) {
+		oldSide.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
+			.toggleClass('Cube-side--invert');
+		return;
+	}
+
 	state.mouseOut = false;
 	state.rotationCount++;
-
-	var cube = element.find('.Cube');
 
 	var rotation;
 	var side;
@@ -132,11 +149,9 @@ Cube.prototype.onMouseEnter = function(e, element) {
 		break;
 	}
 
-
 	var invertClass = state.rotationCount % 2 === 1 ? 'Cube-side--invert' : '';
 	var sideClass = 'Cube-side--' + side;
 
-	var oldSide = element.find('.Cube-side');
 	var newSide = $('<div/>')
 		.addClass('Cube-side ' + sideClass)
 		.addClass(invertClass)
@@ -144,9 +159,16 @@ Cube.prototype.onMouseEnter = function(e, element) {
 
 	oldSide.after(newSide);
 
+	// Safari has a bug with 'transform-origin' on Z axis, this is a fix for it
+	var safariTransformFix = '';
+	if (this.safari) {
+		safariTransformFix = 'translateZ(-' + this.halfSize + 'px) ';
+	}
+
 	state.transitionInProgress = true;
-	cube.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
-		.css('transform', 'rotateX(' + rotation.x + 'deg) rotateY(' + rotation.y + 'deg)');
+	cube
+		.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
+		.css('transform', safariTransformFix + 'rotateX(' + rotation.x + 'deg) rotateY(' + rotation.y + 'deg)');
 
 	setTimeout(function() {
 		oldSide.remove();
