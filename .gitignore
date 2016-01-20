@@ -1,3 +1,4 @@
 .editorconfig
 config.codekit
+sass/.sass-cache
 sass/.sass-cache/*
