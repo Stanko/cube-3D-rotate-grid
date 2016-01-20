@@ -105,8 +105,12 @@ Cube.prototype.showOtherSide = function(e, element) {
 	var secondSide = element.find('.Cube-side--second');
 
 	if (this.no3D) {
-		firstSide.css('transition', 'all ' + (this.options.transitionTime/1000) + 's linear')
-			.toggleClass('Cube-side--invert');
+		firstSide.fadeOut(this.options.transitionTime, function() {
+			firstSide.removeClass('Cube-side--front').addClass('Cube-side--second');
+		});
+		secondSide.fadeIn(this.options.transitionTime, function() {
+			secondSide.removeClass('Cube-side--second').addClass('Cube-side--front');
+		});
 		return;
 	}
 
