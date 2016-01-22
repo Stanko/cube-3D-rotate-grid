@@ -5,14 +5,31 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
 
-	<title>Cube hover effect</title>
+	<title>Rotating 3D cube hover effect</title>
 
 	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/demo.css">
 	<link rel="stylesheet" href="css/cube.css">
 
 </head>
 
 <body class="">
+	<div class="Background"></div>
+
+	<div class="Header">
+		<div class="Container">
+			<a href="https://github.com/Stanko/cube-3D-rotate-grid">
+				GitHub
+			</a>
+			<a href="https://github.com/Stanko/cube-3D-rotate-grid/archive/master.zip">
+				Download
+			</a>
+		</div>
+	</div>
+	<div class="Container">
+		<h1>Rotating 3D cube hover effect</h1>
+	</div>
+
 	<div class="Cubes">
 		<div class="CubeWrapper">
 			<div class="Cube">
@@ -76,6 +93,30 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="Container">
+		<h2>Documentation WIP</h2>
+
+		<h3>TODO</h3>
+		<p>
+			- Add options<br>
+			- Write documentation
+		</p>
+
+		<h3>What is this?</h3>
+
+		<p>
+			Rotating cube hover effect. There are two divs which are changed every time you hover.
+			Depending of the direction you hovered the cube, it will rotate in that direction.
+		</p>
+
+		<h3>Options</h3>
+
+		<p>
+			Tested on Safari, Chrome, Firefox. Both mobile and desktop.
+			Internet Explorer is not supported, but it falls back to fading between states.
+		</p>
 	</div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>

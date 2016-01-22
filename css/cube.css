@@ -1,7 +1,5 @@
 body {
-  overflow-x: hidden;
-  margin: 100px 0;
-  background: #FE6644; }
+  overflow-x: hidden; }
 
 .Cubes {
   width: 100%;
@@ -13,6 +11,13 @@ body {
     max-width: 100%; }
   .Cubes * {
     box-sizing: border-box; }
+  .Cubes::after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0; }
 
 .CubeWrapper {
   -webkit-backface-visibility: hidden;
@@ -64,9 +69,6 @@ body {
   color: #000;
   text-align: center;
   font-size: 40px; }
-  .Cube-side a {
-    text-decoration: none;
-    color: #abf; }
 
 .Cube-side--second {
   display: none; }
