@@ -18,7 +18,7 @@ var Cube = function(options) {
 	};
 
 	this.stylesTemplate = [
-		cubeSelector + ' { transform-origin: center center -HALF; }',
+		this.options.cubeSelector + ' { transform-origin: center center -HALF; }',
 		'.Cube-side--top { transform: rotateX(90deg) translate3d(0, -HALF, HALF); }',
 		'.Cube-side--bottom { transform: rotateX(-90deg) translate3d(0, HALF, HALF); }',
 		'.Cube-side--left { transform: rotateY(-90deg) translate3d(-HALF, 0, HALF); }',
@@ -109,7 +109,7 @@ Cube.prototype.showOtherSide = function(e, element) {
 
 	var cube = element.find(this.options.cubeSelector);
 	var firstSide = element.find(this.options.frontSideSelector);
-	var secondSide = element.find(this.options.secondSideClass);
+	var secondSide = element.find(this.options.secondSideSelector);
 
 	if (this.no3D) {
 		firstSide.fadeOut(this.options.transitionTime, function() {
