@@ -8,8 +8,8 @@
 	<title>Rotating 3D cube hover effect</title>
 
 	<link rel="stylesheet" href="css/normalize.css">
-	<link rel="stylesheet" href="css/demo.css">
 	<link rel="stylesheet" href="css/cube.css">
+	<link rel="stylesheet" href="css/demo.css">
 
 </head>
 
@@ -33,63 +33,95 @@
 	<div class="Cubes">
 		<div class="CubeWrapper">
 			<div class="Cube">
-				<div class="Cube-side Cube-side--front">3D</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">Welcome</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Cubes</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">To</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Hover</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">The</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Effect</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">Other</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Try</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">Side</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Different</div>
-				<div class="Cube-side Cube-side--second Cube-side--invert">:)</div>
-			</div>
-		</div>
-
-		<div class="CubeWrapper">
-			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Sides</div>
+				<div class="Cube-side Cube-side--front">
+					<div>3D</div>
+				</div>
 				<div class="Cube-side Cube-side--second Cube-side--invert">
-					<a href="https://github.com/Stanko/cube-3D-rotate-grid">
-						GitHub
-					</a>
+					<div>Welcome</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Cubes</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>To</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Hover</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>The</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Effect</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>Other</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Try</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>Side</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Different</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>:)</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="CubeWrapper">
+			<div class="Cube">
+				<div class="Cube-side Cube-side--front">
+					<div>Sides</div>
+				</div>
+				<div class="Cube-side Cube-side--second Cube-side--invert">
+					<div>
+						<a href="https://github.com/Stanko/cube-3D-rotate-grid">
+							GitHub
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="CubeWrapper">
 			<div class="Cube">
-				<div class="Cube-side Cube-side--front">Hooray</div>
+				<div class="Cube-side Cube-side--front">
+					<div>Hooray</div>
+				</div>
 				<div class="Cube-side Cube-side--second Cube-side--invert">
-					<a href="https://github.com/Stanko/cube-3D-rotate-grid/archive/master.zip">
-						Download
-					</a>
+					<div>
+						<a href="https://github.com/Stanko/cube-3D-rotate-grid/archive/master.zip">
+							Download
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -98,12 +130,6 @@
 	<div class="Container">
 		<h2>Documentation WIP</h2>
 
-		<h3>TODO</h3>
-		<p>
-			- Add options<br>
-			- Write documentation
-		</p>
-
 		<h3>What is this?</h3>
 
 		<p>
@@ -111,7 +137,22 @@
 			Depending of the direction you hovered the cube, it will rotate in that direction.
 		</p>
 
-		<h3>Options</h3>
+		<h3>Minimum setup:</h3>
+<pre>
+var cube = new Cube();
+</pre>
+
+<h3>Aditional options:</h3>
+<pre>
+var cube = new Cube({
+    cubeWrapperSelector: '.CubeWrapper',
+    cubeSelector: '.Cube',
+    frontSideClass: 'Cube--front',
+    secondSideClass: 'Cube-side--second',
+    transitionTime: 300
+});
+</pre>
+
 
 		<p>
 			Tested on Safari, Chrome, Firefox. Both mobile and desktop.
@@ -122,6 +163,15 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="js/feature.js"></script>
 	<script src="js/cube.js"></script>
+
+	<script>
+		$(function() {
+			var cube = new Cube({
+				cubeWrapperSelector: '.CubeWrapper',
+				transitionTime: 300
+			});
+		});
+	</script>
 
 </body>
 </html>

@@ -1,21 +1,29 @@
-var Cube = function() {
-	this.el = {
-		body: $('body'),
-		cubeWrappers: $('.CubeWrapper'),
-	};
-
-	this.styles = [
-		'.Cube { transform-origin: center center NEGATIVE_HALF; line-height: FULL; }',
-		'.Cube-side--top { transform: rotateX(90deg) translate3d(0, NEGATIVE_HALF, HALF); }',
-		'.Cube-side--bottom { transform: rotateX(-90deg) translate3d(0, HALF, HALF); }',
-		'.Cube-side--left { transform: rotateY(-90deg) translate3d(NEGATIVE_HALF, 0, HALF); }',
-		'.Cube-side--right { transform: rotateY(90deg) translate3d(HALF, 0, HALF) }',
-		// '.Cube-side--back { transform: rotateY(180deg) translate3d(0, 0, FULL); }'
-	].join('\n');
-
+var Cube = function(options) {
 	this.options = {
+		cubeWrapperSelector: '.CubeWrapper',
+		cubeSelector: '.Cube',
+		frontSideClass: 'Cube--front',
+		secondSideClass: 'Cube-side--second',
 		transitionTime: 300
 	};
+
+	this.options.frontSideSelector = '.' + this.options.frontSideClass;
+	this.options.secondSideSelector = '.' + this.options.secondSideClass;
+
+	$.extend(this.options, options);
+
+	this.el = {
+		body: $('body'),
+		cubeWrappers: $(this.options.cubeWrapperSelector),
+	};
+
+	this.stylesTemplate = [
+		cubeSelector + ' { transform-origin: center center -HALF; }',
+		'.Cube-side--top { transform: rotateX(90deg) translate3d(0, -HALF, HALF); }',
+		'.Cube-side--bottom { transform: rotateX(-90deg) translate3d(0, HALF, HALF); }',
+		'.Cube-side--left { transform: rotateY(-90deg) translate3d(-HALF, 0, HALF); }',
+		'.Cube-side--right { transform: rotateY(90deg) translate3d(HALF, 0, HALF) }',
+	].join('\n');
 
 	this.init();
 	this.bind();
@@ -76,14 +84,13 @@ Cube.prototype.bind = function() {
 };
 
 Cube.prototype.fixTranforms = function() {
-	var size = $('.CubeWrapper')[0].getBoundingClientRect().width;
+	var size = $(this.options.cubeWrapperSelector)[0].getBoundingClientRect().width;
 	var half = size / 2;
 
 	this.halfSize = half;
 
-	var newStyles = this.styles
+	var newStyles = this.stylesTemplate
 		.replace(/FULL/g, size + 'px')
-		.replace(/NEGATIVE_HALF/g, -half + 'px')
 		.replace(/HALF/g, half + 'px');
 
 	this.el.style.html(newStyles);
@@ -100,16 +107,16 @@ Cube.prototype.showOtherSide = function(e, element) {
 		return;
 	}
 
-	var cube = element.find('.Cube');
-	var firstSide = element.find('.Cube-side--front');
-	var secondSide = element.find('.Cube-side--second');
+	var cube = element.find(this.options.cubeSelector);
+	var firstSide = element.find(this.options.frontSideSelector);
+	var secondSide = element.find(this.options.secondSideClass);
 
 	if (this.no3D) {
 		firstSide.fadeOut(this.options.transitionTime, function() {
-			firstSide.removeClass('Cube-side--front').addClass('Cube-side--second');
+			firstSide.removeClass(this.options.frontSideClass).addClass(this.options.secondSideClass);
 		});
 		secondSide.fadeIn(this.options.transitionTime, function() {
-			secondSide.removeClass('Cube-side--second').addClass('Cube-side--front');
+			secondSide.removeClass(this.options.secondSideClass).addClass(this.options.frontSideClass);
 		});
 		return;
 	}
@@ -163,19 +170,10 @@ Cube.prototype.showOtherSide = function(e, element) {
 		break;
 	}
 
-	var invertClass = state.rotationCount % 2 === 1 ? 'Cube-side--invert' : '';
 	var sideClass = 'Cube-side--' + side;
 
-	secondSide.addClass(sideClass).removeClass('Cube-side--second');
+	secondSide.addClass(sideClass).removeClass(this.options.secondSideClass);
 
-	// var secondSide = $('<div/>')
-	// 	.addClass('Cube-side ' + sideClass)
-	// 	.addClass(invertClass)
-	// 	.html(firstSide.html());
-
-	// firstSide.after(secondSide);
-
-	// Safari has a bug with 'transform-origin' on Z axis, this is a fix for it
 	var safariTransformFix = '';
 	if (this.safari) {
 		safariTransformFix = 'translateZ(-' + this.halfSize + 'px) ';
@@ -190,12 +188,12 @@ Cube.prototype.showOtherSide = function(e, element) {
 		console.log(firstSide, secondSide);
 
 		firstSide
-			.removeClass('Cube-side--front')
-			.addClass('Cube-side--second');
+			.removeClass(this.options.frontSideClass)
+			.addClass(this.options.secondSideClass);
 
 		secondSide
 			.removeClass(sideClass)
-			.addClass('Cube-side--front');
+			.addClass(this.options.frontSideClass);
 
 		cube
 			.css('transition', 'none')
@@ -203,8 +201,3 @@ Cube.prototype.showOtherSide = function(e, element) {
 		state.transitionInProgress = false;
 	}, this.options.transitionTime);
 };
-
-
-$(function() {
-	var cube = new Cube();
-});

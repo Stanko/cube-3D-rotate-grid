@@ -19,6 +19,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1, h2, h3, h4, h5, h6,
 ul,
+pre,
 p {
 	margin: 0 0 20px;
 }
@@ -58,9 +59,38 @@ h1 {
 }
 
 .Cube-side {
+	line-height: 100%;
+
 	a {
 		text-decoration: none;
 		color: #fff;
 		border: 0;
 	}
+
+	> div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
 }
+
+.Cube-side--invert {
+	background: #000;
+	color: #fff;
+}
+
+pre {
+	font-family: "Deja-vu Sans Mono", Monaco, Menlo, Consolas, "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5em;
+    color: #555;
+    background: #FaFaFc;
+    border: 1px solid #E1E1E8;
+    border-radius: 3px;
+    padding: 12px 16px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+

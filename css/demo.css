@@ -17,6 +17,7 @@ h1, h2, h3, h4, h5, h6 {
 
 h1, h2, h3, h4, h5, h6,
 ul,
+pre,
 p {
   margin: 0 0 20px; }
 
@@ -24,6 +25,7 @@ a {
   color: white;
   text-decoration: none;
   border-bottom: 2px solid #FE8166;
+  -webkit-transition: all 0.2s;
   transition: all 0.2s; }
   a:hover {
     color: rgba(255, 255, 255, 0.7); }
@@ -44,7 +46,40 @@ h1 {
   padding: 20px;
   max-width: 800px; }
 
-.Cube-side a {
-  text-decoration: none;
-  color: #fff;
-  border: 0; }
+.Cube-side {
+  line-height: 100%; }
+  .Cube-side a {
+    text-decoration: none;
+    color: #fff;
+    border: 0; }
+  .Cube-side > div {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    height: 100%; }
+
+.Cube-side--invert {
+  background: #000;
+  color: #fff; }
+
+pre {
+  font-family: "Deja-vu Sans Mono", Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5em;
+  color: #555;
+  background: #FaFaFc;
+  border: 1px solid #E1E1E8;
+  border-radius: 3px;
+  padding: 12px 16px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word; }
