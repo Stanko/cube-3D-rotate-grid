@@ -2,7 +2,7 @@ var Cube = function(options) {
 	this.options = {
 		cubeWrapperSelector: '.CubeWrapper',
 		cubeSelector: '.Cube',
-		frontSideClass: 'Cube--front',
+		frontSideClass: 'Cube-side--front',
 		secondSideClass: 'Cube-side--second',
 		transitionTime: 300
 	};
@@ -101,6 +101,7 @@ Cube.prototype.resetMouseOutFlag = function(e, element) {
 };
 
 Cube.prototype.showOtherSide = function(e, element) {
+	var self = this;
 	var state = this.state[element.index()];
 
 	if (!this.touch && !state.mouseOut || state.transitionInProgress) {
@@ -185,19 +186,18 @@ Cube.prototype.showOtherSide = function(e, element) {
 		.css('transform', safariTransformFix + 'rotateX(' + rotation.x + 'deg) rotateY(' + rotation.y + 'deg)');
 
 	setTimeout(function() {
-		console.log(firstSide, secondSide);
-
 		firstSide
-			.removeClass(this.options.frontSideClass)
-			.addClass(this.options.secondSideClass);
+			.removeClass(self.options.frontSideClass)
+			.addClass(self.options.secondSideClass);
 
 		secondSide
 			.removeClass(sideClass)
-			.addClass(this.options.frontSideClass);
+			.addClass(self.options.frontSideClass);
 
-		cube
-			.css('transition', 'none')
-			.css('transform', 'none');
+		cube.css({
+			transition: 'none',
+			transform: 'none'
+		});
 		state.transitionInProgress = false;
 	}, this.options.transitionTime);
 };
